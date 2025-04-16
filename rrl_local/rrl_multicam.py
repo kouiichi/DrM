@@ -1,7 +1,7 @@
 # Copyright (c) Rutav Shah, Indian Institute of Technlogy Kharagpur
 # Copyright (c) Facebook, Inc. and its affiliates
 
-import gym
+import gymnasium as gym
 # from abc import ABC
 import numpy as np
 from rrl_local.rrl_encoder import Encoder, IdentityEncoder

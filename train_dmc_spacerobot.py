@@ -15,7 +15,7 @@ import utils
 import torch
 from dm_env import specs
 
-import dmc
+import dmc_spacerobot
 
 from logger import Logger
 from replay_buffer import ReplayBufferStorage, make_replay_loader
@@ -61,7 +61,7 @@ class Workspace:
             #            group=group_name,
             #            name=exp_name,
             #            config=cfg)
-            
+
         utils.set_seed_everywhere(cfg.seed)
         self.device = torch.device(cfg.device)
         self._discount = cfg.discount
@@ -79,9 +79,9 @@ class Workspace:
                              use_tb=self.cfg.use_tb,
                              use_wandb=self.cfg.use_wandb)
         # create envs
-        self.train_env = dmc.make(self.cfg.task_name, self.cfg.frame_stack,
+        self.train_env = dmc_spacerobot.make(self.cfg.task_name, self.cfg.frame_stack,
                                   self.cfg.action_repeat, self.cfg.seed)
-        self.eval_env = dmc.make(self.cfg.task_name, self.cfg.frame_stack,
+        self.eval_env = dmc_spacerobot.make(self.cfg.task_name, self.cfg.frame_stack,
                                  self.cfg.action_repeat, self.cfg.seed)
         # create replay buffer
         data_specs = (self.train_env.observation_spec(),
@@ -234,9 +234,9 @@ class Workspace:
             self.__dict__[k] = v
 
 
-@hydra.main(version_base=None, config_path='cfgs', config_name='config')
+@hydra.main(version_base=None, config_path='cfgs', config_name='config_spacerobot')
 def main(cfgs):
-    from train_dmc import Workspace as W
+    from train_dmc_spacerobot import Workspace as W
     root_dir = Path.cwd()
     workspace = W(cfgs)
     snapshot = root_dir / 'snapshot.pt'
