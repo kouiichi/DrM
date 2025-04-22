@@ -1,5 +1,5 @@
 agent:
-  _target_: agents.drm.DrMResnetAgent
+  _target_: agents.drm_resnet.DrMResnetAgent
   obs_shape: ??? # to be specified later
   action_shape: ??? # to be specified later
   device: ${device}

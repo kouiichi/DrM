@@ -1,6 +1,9 @@
 import os
 import time
 
+os.environ['MKL_SERVICE_FORCE_INTEL'] = '1'
+os.environ['MUJOCO_GL'] = 'egl'
+
 import cv2
 import numpy as np
 import copy
@@ -53,7 +56,7 @@ class SpaceRobot(base.Task):
         self._gripper_body_id = self._physics.model.body('gripper_base').id
         self._handle_body_id = self._physics.model.body('handle').id
         self._camera_id = self._physics.model.camera('camera').id
-        self._camera_body_id = self._physics.model.body('camera_body').id
+        # self._camera_body_id = self._physics.model.body('camera_body').id
 
         self.chasersat_mass = self._physics.model.body_mass[self._chasersat_body_id]
         self.n = 0.00113
@@ -331,8 +334,7 @@ class SpaceRobotEnv(control.Environment):
     def __init__(self, xml_path=_XML_PATH, time_limit=_DEFAULT_TIME_LIMIT,
                  control_timestep=_CONTROL_TIMESTEP,
                  n_sub_steps=None,
-                 flat_observation=False,
-                 legacy_step=False):
+                 flat_observation=False):
 
         """
         初始化 SpaceRobotEnv 环境。
@@ -351,7 +353,7 @@ class SpaceRobotEnv(control.Environment):
 
         super(SpaceRobotEnv, self).__init__(physics=physics, task=task, time_limit=time_limit,
                          control_timestep=control_timestep, n_sub_steps=n_sub_steps,
-                         flat_observation=flat_observation, legacy_step=legacy_step)
+                         flat_observation=flat_observation)
 
 
 class ExtendedTimeStep(NamedTuple):
@@ -522,7 +524,7 @@ class ExtendedTimeStepWrapper(dm_env.Environment):
         return getattr(self._env, name)
     
     
-def make(name, frame_stack, action_repeat, seed):
+def make(frame_stack, action_repeat):
     env = SpaceRobotEnv(xml_path=_XML_PATH, time_limit=_DEFAULT_TIME_LIMIT,
                          control_timestep=_CONTROL_TIMESTEP,
                          n_sub_steps=None,
@@ -543,7 +545,7 @@ def random_policy(timestep):
 
 if __name__ == "__main__":
     # 创建环境
-    env = make("SpaceRobot", frame_stack=4, action_repeat=1, seed=42)
+    env = make(rame_stack=4, action_repeat=1)
     timestep = env.reset()
     # viewer.launch(env, policy=random_policy)
 

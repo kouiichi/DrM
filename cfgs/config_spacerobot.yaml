@@ -11,11 +11,12 @@ discount: 0.99
 # train settings
 num_seed_frames: 4000
 update_every_steps: 2
+num_train_frames: 5000000
 # eval
 eval_every_frames: 10000
 num_eval_episodes: 10
 # snapshot
-save_snapshot: false
+save_snapshot: True
 # wandb
 use_wandb: true
 # replay buffer

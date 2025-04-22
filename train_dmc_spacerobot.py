@@ -38,7 +38,7 @@ class Workspace:
         print(f'workspace: {self.work_dir}')
         self.cfg = cfg
         if self.cfg.use_wandb:
-            exp_name = '_'.join([cfg.task_name, str(cfg.seed)])
+            exp_name = '_'.join([cfg.task_name, str(cfg.agent._target_.split('.')[-1])])
             group_name = re.search(r'\.(.+)\.', cfg.agent._target_).group(1)
             
             # 创建一个可序列化的配置字典
@@ -79,10 +79,8 @@ class Workspace:
                              use_tb=self.cfg.use_tb,
                              use_wandb=self.cfg.use_wandb)
         # create envs
-        self.train_env = dmc_spacerobot.make(self.cfg.task_name, self.cfg.frame_stack,
-                                  self.cfg.action_repeat, self.cfg.seed)
-        self.eval_env = dmc_spacerobot.make(self.cfg.task_name, self.cfg.frame_stack,
-                                 self.cfg.action_repeat, self.cfg.seed)
+        self.train_env = dmc_spacerobot.make(self.cfg.frame_stack, self.cfg.action_repeat)
+        self.eval_env = dmc_spacerobot.make(self.cfg.frame_stack, self.cfg.action_repeat)
         # create replay buffer
         data_specs = (self.train_env.observation_spec(),
                       self.train_env.action_spec(),
@@ -234,7 +232,7 @@ class Workspace:
             self.__dict__[k] = v
 
 
-@hydra.main(version_base=None, config_path='cfgs', config_name='config_spacerobot')
+@hydra.main(config_path='cfgs', config_name='config_spacerobot')
 def main(cfgs):
     from train_dmc_spacerobot import Workspace as W
     root_dir = Path.cwd()

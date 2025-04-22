@@ -39,9 +39,7 @@
             <site name="force_torque_site" pos="0 0 0" type="sphere" size="0.01"/>
 
             <!--  Camera  -->
-            <body name="camera_body" pos="0 0.8726 0">
-                <camera name="camera" mode="fixed" fovy="120"/>
-            </body>
+            <camera name="camera" mode="fixed" pos="0.8726 0 0" euler="0 -1.5708 0" fovy="120"/>
 
             <body name="chasersat_solar_panel_left" pos="0 -1.2 0" euler="0 0 1.57">
                 <geom name="chasersat_solar_panel_left" type="box" size="1.5 0.05 0.5" mass="5" rgba="0.2 0.2 0.8 1"/>
@@ -101,12 +99,12 @@
                                                 <site name="gripper_frame:z" pos="0 0 0.0618" size="0.01 0.0618" type="cylinder" rgba="0 0 1 1" />
                                                 <!-- left gripper -->
                                                 <body name="left_gripper" pos="0.02 0 0">
-                                                    <joint name="left_gripper_joint" type="slide" axis="1 0 0" range="0 0.02" />
+                                                    <joint name="left_gripper_joint" type="slide" axis="1 0 0" range="0 0.02" limited="true"/>
                                                     <geom class="gripper" name="left_gripper_geom" type="box" size="0.01 0.01 0.05" pos="0.01 0 0" />
                                                 </body>
                                                 <!-- right gripper -->
                                                 <body name="right_gripper" pos="-0.02 0 0">
-                                                    <joint name="right_gripper_joint" type="slide" axis="1 0 0" range="-0.02 0" />
+                                                    <joint name="right_gripper_joint" type="slide" axis="1 0 0" range="-0.02 0" limited="true"/>
                                                     <geom class="gripper" name="right_gripper_geom" type="box" size="0.01 0.01 0.05" pos="-0.01 0 0" />
                                                 </body>
                                             </body>

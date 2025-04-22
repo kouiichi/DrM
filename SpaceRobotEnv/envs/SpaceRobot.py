@@ -28,7 +28,8 @@ _CONTROL_TIMESTEP = 1
 _MAX_STEPS = int(_DEFAULT_TIME_LIMIT / _CONTROL_TIMESTEP)
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-_XML_PATH = os.path.join(current_dir, 'SpaceRobotEnv', 'assets', 'spacerobot', 'spacerobot.xml')
+parent_dir = os.path.dirname(current_dir)
+_XML_PATH = os.path.join(current_dir, 'assets', 'spacerobot', 'spacerobot.xml')
 
 if not os.path.exists(_XML_PATH):
     raise FileNotFoundError(f"XML file not found at {current_dir}. Please check the path.")
@@ -50,7 +51,7 @@ class SpaceRobot(base.Task):
         self._gripper_body_id = self._physics.model.body('gripper_base').id
         self._handle_body_id = self._physics.model.body('handle').id
         self._camera_id = self._physics.model.camera('camera').id
-        self._camera_body_id = self._physics.model.body('camera_body').id
+        # self._camera_body_id = self._physics.model.body('camera_body').id
 
         self.chasersat_mass = self._physics.model.body_mass[self._chasersat_body_id]
         self.n = 0.00113
@@ -139,8 +140,8 @@ class SpaceRobot(base.Task):
         obs['handle_pos'] = physics.data.body(self._handle_body_id).xpos.copy()
 
         # 获取相机图像
-        width = 64
-        height = 64
+        width = 84
+        height = 84
         rgb_image = physics.render(width, height, camera_id=self._camera_id)
         obs['image_obs'] = rgb_image
 
@@ -301,8 +302,7 @@ class SpaceRobotEnv(control.Environment):
     def __init__(self, xml_path=_XML_PATH, time_limit=_DEFAULT_TIME_LIMIT,
                  control_timestep=_CONTROL_TIMESTEP,
                  n_sub_steps=None,
-                 flat_observation=False,
-                 legacy_step=False):
+                 flat_observation=False):
 
         """
         初始化 SpaceRobotEnv 环境。
@@ -321,7 +321,7 @@ class SpaceRobotEnv(control.Environment):
 
         super(SpaceRobotEnv, self).__init__(physics=physics, task=task, time_limit=time_limit,
                          control_timestep=control_timestep, n_sub_steps=n_sub_steps,
-                         flat_observation=flat_observation, legacy_step=legacy_step)
+                         flat_observation=flat_observation)
 
 
 class GymSpaceRobotEnv(gym.Env):

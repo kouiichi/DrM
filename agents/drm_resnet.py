@@ -73,7 +73,7 @@ class ResEncoder(nn.Module):
     def __init__(self):
         super(ResEncoder, self).__init__()
         self.model = resnet18(pretrained=True)
-        self.transforme = transforms.Compose([
+        self.transform = transforms.Compose([
             transforms.Resize(256),
             transforms.CenterCrop(224)
         ])
@@ -206,7 +206,7 @@ class VNetwork(nn.Module):
         return v
 
 
-class DrMAgent:
+class DrMResnetAgent:
     def __init__(self, obs_shape, action_shape, device, lr, feature_dim,
                  hidden_dim, critic_target_tau, dormant_threshold,
                  target_dormant_ratio, dormant_temp, target_lambda,
