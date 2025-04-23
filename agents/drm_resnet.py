@@ -4,7 +4,7 @@ import numpy as np
 import hydra
 import torch.nn as nn
 import torch.nn.functional as F
-from torchvision.models import resnet18, resnet34, resnet50
+from torchvision.models import resnet18, resnet34, resnet50, ResNet18_Weights
 import torchvision
 from torchvision import transforms
 import sys
@@ -72,7 +72,7 @@ class Encoder(nn.Module):
 class ResEncoder(nn.Module):
     def __init__(self):
         super(ResEncoder, self).__init__()
-        self.model = resnet18(pretrained=True)
+        self.model = resnet18(weights=ResNet18_Weights.DEFAULT)
         self.transform = transforms.Compose([
             transforms.Resize(256),
             transforms.CenterCrop(224)
