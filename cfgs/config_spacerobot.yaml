@@ -11,7 +11,7 @@ discount: 0.99
 # train settings
 num_seed_frames: 4000
 update_every_steps: 2
-num_train_frames: 5000000
+num_train_frames: 3000000
 # eval
 eval_every_frames: 10000
 num_eval_episodes: 10
