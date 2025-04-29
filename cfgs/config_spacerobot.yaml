@@ -17,6 +17,7 @@ eval_every_frames: 10000
 num_eval_episodes: 10
 # snapshot
 save_snapshot: True
+save_buffer: False
 # wandb
 use_wandb: true
 # replay buffer
